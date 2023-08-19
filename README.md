@@ -26,3 +26,8 @@ This projects focuses in detection of deepfakes videos using various deep learni
   - Train the model
   - Test the model
   
+## Team
+  - Abhishek Naval
+  - Himanshu Aggarwal
+  - Kshitiz Sharma
+  - Madhup Sharma
