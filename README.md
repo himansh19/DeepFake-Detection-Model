@@ -1,6 +1,6 @@
 # DeepFake-Detection-Model
 ## Introduction
-This projects focuses in detection of deepfakes videos using various deep learning techniques. We have compared also compared our results by training & analyzing different DeepLearning models. We have achived deepfake detection by using transfer learning where we have choosen one of the pretrained DeepLearning Model that is used to obtain a feature vector, further the LSTM layer is trained using the features.
+This projects focuses in detection of deepfakes videos using various deep learning techniques. We have also compared our results by training & analyzing different DeepLearning models. We have achived deepfake detection by using transfer learning where we have choosen one of the pretrained DeepLearning Model that is used to obtain a feature vector, further the LSTM layer is trained using the features.
 
 ## System Architecture
 
