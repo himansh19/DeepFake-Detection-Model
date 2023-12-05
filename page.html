@@ -1,0 +1,102 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/5f8ac1458e.js" crossorigin="anonymous"></script>
+  <title>Video Analysis</title>
+  <style>
+    body {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #d9dcc8;
+      text-align: center;
+      
+    }
+    h2 {
+      color: #2196F3; /* Change to the color you prefer */
+    font-size: 2.6em; /* Adjust the font size as needed */
+    text-shadow: 2px 2px 4px rgba(33, 150, 243, 0.5); 
+    }
+    input[type="file"] {
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #fff;
+      cursor: pointer;
+    }
+    video {
+      width: 100%;
+      max-width: 640px;
+      margin: 20px 0;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 24px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #result {
+      font-size: 24px;
+      font-weight: 700;
+      padding:17px 12px;
+      margin-top: 20px;
+      color: #080606;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h2>DeepFake Detector</h2>
+  <input type="file" accept="video/*" id="videoInput" /><br>
+  <video id="video" controls></video><br>
+  <button onclick="processVideo()">Process Video</button>
+  <div id="result"></div>
+  <script>
+    const videoInput = document.getElementById('videoInput');
+    const video = document.getElementById('video');
+    const resultDiv = document.getElementById('result');
+    function showLoading() {
+      resultDiv.innerHTML = 'This Video is : <i class="fa-solid fa-spinner fa-spin fa-2xl" style="color: #325695;"></i>'; 
+    }
+    function hideLoading() {
+      resultDiv.innerHTML = "";
+    }
+    function processVideo() {
+      const file = videoInput.files[0];
+      if (file) {
+        const formData = new FormData();
+        formData.append('videoFile', file);
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          video.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+        showLoading();
+        // Send video data to the server for processing
+        fetch('http://localhost:3000/predict', {
+          method: 'POST',
+          body: formData,
+        })
+          .then(response => response.json())
+          .then(result => {
+            hideLoading();
+            // Display the result on the page
+            resultDiv.innerText = `This Video is : ${result.prediction}`;
+        })
+        .catch(error => {
+            hideLoading();
+              resultDiv.innerText = `Result: ${error}`;
+            console.error('Error:', error)
+        });
+      }
+    }
+  </script>
+</body>
+</html>
